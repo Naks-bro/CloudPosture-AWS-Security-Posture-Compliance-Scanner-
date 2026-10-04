@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cloudposture"
+version = "1.0.0"
+description = "Read-only AWS security posture & compliance scanner (CIS AWS Foundations aligned) with a Streamlit dashboard"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "boto3>=1.34",
+    "streamlit>=1.50",
+    "pandas>=2.0",
+    "plotly>=5.20",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "moto[all]>=5.0"]
+
+[project.scripts]
+cloudposture = "cloudposture.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

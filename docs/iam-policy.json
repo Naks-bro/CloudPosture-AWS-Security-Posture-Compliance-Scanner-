@@ -1,0 +1,58 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "CloudPostureIAMReadOnly",
+      "Effect": "Allow",
+      "Action": [
+        "iam:GenerateCredentialReport",
+        "iam:GetCredentialReport",
+        "iam:GetAccountSummary",
+        "iam:GetAccountPasswordPolicy",
+        "iam:ListVirtualMFADevices",
+        "iam:ListPolicies",
+        "iam:GetPolicyVersion",
+        "iam:ListAttachedUserPolicies",
+        "iam:ListUserPolicies"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "CloudPostureS3ReadOnly",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListAllMyBuckets",
+        "s3:GetBucketLocation",
+        "s3:GetAccountPublicAccessBlock",
+        "s3:GetBucketPublicAccessBlock",
+        "s3:GetBucketPolicyStatus",
+        "s3:GetBucketAcl",
+        "s3:GetBucketPolicy",
+        "s3:GetEncryptionConfiguration"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "CloudPostureEC2ReadOnly",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeRegions",
+        "ec2:DescribeSecurityGroups",
+        "ec2:DescribeVolumes",
+        "ec2:DescribeInstances",
+        "ec2:GetEbsEncryptionByDefault"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "CloudPostureCloudTrailReadOnly",
+      "Effect": "Allow",
+      "Action": [
+        "cloudtrail:DescribeTrails",
+        "cloudtrail:GetTrailStatus",
+        "cloudtrail:GetEventSelectors"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

@@ -1,0 +1,3067 @@
+{
+  "metadata": {
+    "mode": "demo",
+    "account_id": "123456789012",
+    "regions": [
+      "us-east-1"
+    ],
+    "started_at": "2026-10-04T19:08:47+00:00",
+    "duration_seconds": 0.69,
+    "tool_version": "1.0.0",
+    "notes": [
+      "DEMO DATA: produced by running the real scanner against a simulated AWS account (moto). Account ID and resources are fictional."
+    ]
+  },
+  "findings": [
+    {
+      "check_id": "CT-001",
+      "service": "CloudTrail",
+      "resource": "account",
+      "region": "global",
+      "severity": "HIGH",
+      "title": "A multi-region CloudTrail trail is enabled and logging management events",
+      "description": "Without an active multi-region trail, API activity in some regions is not recorded, leaving no audit trail for incident response.",
+      "current_state": "Compliant multi-region trail(s): org-trail",
+      "expected_state": "At least one multi-region trail is logging and records read+write management events",
+      "status": "PASS",
+      "remediation": [
+        "CloudTrail > Trails > Create trail with 'Apply trail to all regions' enabled.",
+        "Record management events (Read and Write) and make sure logging is started.",
+        "In AWS Organizations, an organization trail satisfies this for all member accounts."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "3.1",
+            "title": "Ensure CloudTrail is enabled in all regions",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.15",
+            "title": "Logging",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "10.2.1",
+            "title": "Audit logs enabled",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC7.2",
+            "title": "Monitoring of system components",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "CT-002",
+      "service": "CloudTrail",
+      "resource": "basic-trail",
+      "region": "us-east-1",
+      "severity": "MEDIUM",
+      "title": "CloudTrail log file validation is enabled",
+      "description": "Digest files let you prove that log files were not modified or deleted after delivery.",
+      "current_state": "Disabled",
+      "expected_state": "LogFileValidationEnabled = true",
+      "status": "FAIL",
+      "remediation": [
+        "CloudTrail > Trails > trail > General details > Edit > enable 'Log file validation'."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "3.2",
+            "title": "Ensure CloudTrail log file validation is enabled",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.15",
+            "title": "Logging",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "10.3.4",
+            "title": "Integrity/change detection on audit logs",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC7.2",
+            "title": "Monitoring of system components",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "CT-002",
+      "service": "CloudTrail",
+      "resource": "org-trail",
+      "region": "us-east-1",
+      "severity": "MEDIUM",
+      "title": "CloudTrail log file validation is enabled",
+      "description": "Digest files let you prove that log files were not modified or deleted after delivery.",
+      "current_state": "Enabled",
+      "expected_state": "LogFileValidationEnabled = true",
+      "status": "PASS",
+      "remediation": [
+        "CloudTrail > Trails > trail > General details > Edit > enable 'Log file validation'."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "3.2",
+            "title": "Ensure CloudTrail log file validation is enabled",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.15",
+            "title": "Logging",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "10.3.4",
+            "title": "Integrity/change detection on audit logs",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC7.2",
+            "title": "Monitoring of system components",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "CT-003",
+      "service": "CloudTrail",
+      "resource": "basic-trail",
+      "region": "us-east-1",
+      "severity": "LOW",
+      "title": "CloudTrail trail is integrated with CloudWatch Logs",
+      "description": "CloudWatch Logs integration enables near-real-time alerting on suspicious API activity. Delivery must be recent (within 24h).",
+      "current_state": "No CloudWatch Logs log group configured",
+      "expected_state": "Trail delivers to a CloudWatch Logs group and the latest delivery is < 24 hours old",
+      "status": "FAIL",
+      "remediation": [
+        "CloudTrail > trail > CloudWatch Logs > Edit > enable and select/create a log group and IAM role.",
+        "Add metric filters and alarms for the CIS monitoring controls (root usage, console sign-in without MFA, etc.)."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "3.4",
+            "title": "Ensure CloudTrail trails are integrated with CloudWatch Logs",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.16",
+            "title": "Monitoring activities",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "10.4.1",
+            "title": "Audit logs reviewed",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC7.2",
+            "title": "Monitoring of system components",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "CT-003",
+      "service": "CloudTrail",
+      "resource": "org-trail",
+      "region": "us-east-1",
+      "severity": "LOW",
+      "title": "CloudTrail trail is integrated with CloudWatch Logs",
+      "description": "CloudWatch Logs integration enables near-real-time alerting on suspicious API activity. Delivery must be recent (within 24h).",
+      "current_state": "No CloudWatch Logs log group configured",
+      "expected_state": "Trail delivers to a CloudWatch Logs group and the latest delivery is < 24 hours old",
+      "status": "FAIL",
+      "remediation": [
+        "CloudTrail > trail > CloudWatch Logs > Edit > enable and select/create a log group and IAM role.",
+        "Add metric filters and alarms for the CIS monitoring controls (root usage, console sign-in without MFA, etc.)."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "3.4",
+            "title": "Ensure CloudTrail trails are integrated with CloudWatch Logs",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.16",
+            "title": "Monitoring activities",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "10.4.1",
+            "title": "Audit logs reviewed",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC7.2",
+            "title": "Monitoring of system components",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "CT-004",
+      "service": "CloudTrail",
+      "resource": "basic-trail",
+      "region": "us-east-1",
+      "severity": "MEDIUM",
+      "title": "CloudTrail logs are encrypted with a KMS key",
+      "description": "SSE-KMS adds key-level access control and auditing on top of default S3 encryption of log files.",
+      "current_state": "No KMS key configured",
+      "expected_state": "Trail has a KmsKeyId configured",
+      "status": "FAIL",
+      "remediation": [
+        "CloudTrail > trail > General details > Edit > enable 'Log file SSE-KMS encryption' with a customer-managed key."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "3.7",
+            "title": "Ensure CloudTrail logs are encrypted at rest using KMS CMKs",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.24",
+            "title": "Use of cryptography",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "10.3.2",
+            "title": "Audit log files protected from modification",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "CT-004",
+      "service": "CloudTrail",
+      "resource": "org-trail",
+      "region": "us-east-1",
+      "severity": "MEDIUM",
+      "title": "CloudTrail logs are encrypted with a KMS key",
+      "description": "SSE-KMS adds key-level access control and auditing on top of default S3 encryption of log files.",
+      "current_state": "SSE-KMS enabled",
+      "expected_state": "Trail has a KmsKeyId configured",
+      "status": "PASS",
+      "remediation": [
+        "CloudTrail > trail > General details > Edit > enable 'Log file SSE-KMS encryption' with a customer-managed key."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "3.7",
+            "title": "Ensure CloudTrail logs are encrypted at rest using KMS CMKs",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.24",
+            "title": "Use of cryptography",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "10.3.2",
+            "title": "Audit log files protected from modification",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "EC2-001",
+      "service": "EC2",
+      "resource": "sg-974ffc347a4747397 (default)",
+      "region": "us-east-1",
+      "severity": "HIGH",
+      "title": "Security group does not expose SSH (22) to the internet",
+      "description": "SSH open to 0.0.0.0/0 or ::/0 (including all-port/all-protocol rules) invites brute-force and exploit attempts.",
+      "current_state": "SSH (22) not open to the internet",
+      "expected_state": "No inbound rule allowing 0.0.0.0/0 or ::/0 on TCP 22",
+      "status": "PASS",
+      "remediation": [
+        "Edit the security group inbound rules; remove the world-open SSH rule or restrict it to a trusted CIDR/VPN.",
+        "Prefer AWS Systems Manager Session Manager or EC2 Instance Connect Endpoint so no inbound port is required."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "5.2",
+            "title": "No security groups allow ingress from 0.0.0.0/0 to remote server administration ports",
+            "confidence": "exact"
+          },
+          {
+            "control_id": "5.3",
+            "title": "No security groups allow ingress from ::/0 to remote server administration ports",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.20",
+            "title": "Networks security",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "1.3.1",
+            "title": "Inbound traffic to the CDE restricted",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "EC2-001",
+      "service": "EC2",
+      "resource": "sg-b7c0c2fd9f6251764 (default)",
+      "region": "us-east-1",
+      "severity": "HIGH",
+      "title": "Security group does not expose SSH (22) to the internet",
+      "description": "SSH open to 0.0.0.0/0 or ::/0 (including all-port/all-protocol rules) invites brute-force and exploit attempts.",
+      "current_state": "SSH (22) not open to the internet",
+      "expected_state": "No inbound rule allowing 0.0.0.0/0 or ::/0 on TCP 22",
+      "status": "PASS",
+      "remediation": [
+        "Edit the security group inbound rules; remove the world-open SSH rule or restrict it to a trusted CIDR/VPN.",
+        "Prefer AWS Systems Manager Session Manager or EC2 Instance Connect Endpoint so no inbound port is required."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "5.2",
+            "title": "No security groups allow ingress from 0.0.0.0/0 to remote server administration ports",
+            "confidence": "exact"
+          },
+          {
+            "control_id": "5.3",
+            "title": "No security groups allow ingress from ::/0 to remote server administration ports",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.20",
+            "title": "Networks security",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "1.3.1",
+            "title": "Inbound traffic to the CDE restricted",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "EC2-001",
+      "service": "EC2",
+      "resource": "sg-908ca6d962ab868d4 (web-open)",
+      "region": "us-east-1",
+      "severity": "HIGH",
+      "title": "Security group does not expose SSH (22) to the internet",
+      "description": "SSH open to 0.0.0.0/0 or ::/0 (including all-port/all-protocol rules) invites brute-force and exploit attempts.",
+      "current_state": "SSH (22) open to 0.0.0.0/0",
+      "expected_state": "No inbound rule allowing 0.0.0.0/0 or ::/0 on TCP 22",
+      "status": "FAIL",
+      "remediation": [
+        "Edit the security group inbound rules; remove the world-open SSH rule or restrict it to a trusted CIDR/VPN.",
+        "Prefer AWS Systems Manager Session Manager or EC2 Instance Connect Endpoint so no inbound port is required."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "5.2",
+            "title": "No security groups allow ingress from 0.0.0.0/0 to remote server administration ports",
+            "confidence": "exact"
+          },
+          {
+            "control_id": "5.3",
+            "title": "No security groups allow ingress from ::/0 to remote server administration ports",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.20",
+            "title": "Networks security",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "1.3.1",
+            "title": "Inbound traffic to the CDE restricted",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "EC2-002",
+      "service": "EC2",
+      "resource": "sg-974ffc347a4747397 (default)",
+      "region": "us-east-1",
+      "severity": "HIGH",
+      "title": "Security group does not expose RDP (3389) to the internet",
+      "description": "RDP open to the internet is a leading ransomware entry point.",
+      "current_state": "RDP (3389) not open to the internet",
+      "expected_state": "No inbound rule allowing 0.0.0.0/0 or ::/0 on TCP 3389",
+      "status": "PASS",
+      "remediation": [
+        "Remove the world-open RDP rule or restrict to a trusted CIDR/VPN.",
+        "Use Systems Manager Fleet Manager / Session Manager port forwarding or a bastion behind a VPN."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "5.2",
+            "title": "No security groups allow ingress from 0.0.0.0/0 to remote server administration ports",
+            "confidence": "exact"
+          },
+          {
+            "control_id": "5.3",
+            "title": "No security groups allow ingress from ::/0 to remote server administration ports",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.20",
+            "title": "Networks security",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "1.3.1",
+            "title": "Inbound traffic to the CDE restricted",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "EC2-002",
+      "service": "EC2",
+      "resource": "sg-b7c0c2fd9f6251764 (default)",
+      "region": "us-east-1",
+      "severity": "HIGH",
+      "title": "Security group does not expose RDP (3389) to the internet",
+      "description": "RDP open to the internet is a leading ransomware entry point.",
+      "current_state": "RDP (3389) not open to the internet",
+      "expected_state": "No inbound rule allowing 0.0.0.0/0 or ::/0 on TCP 3389",
+      "status": "PASS",
+      "remediation": [
+        "Remove the world-open RDP rule or restrict to a trusted CIDR/VPN.",
+        "Use Systems Manager Fleet Manager / Session Manager port forwarding or a bastion behind a VPN."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "5.2",
+            "title": "No security groups allow ingress from 0.0.0.0/0 to remote server administration ports",
+            "confidence": "exact"
+          },
+          {
+            "control_id": "5.3",
+            "title": "No security groups allow ingress from ::/0 to remote server administration ports",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.20",
+            "title": "Networks security",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "1.3.1",
+            "title": "Inbound traffic to the CDE restricted",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "EC2-002",
+      "service": "EC2",
+      "resource": "sg-908ca6d962ab868d4 (web-open)",
+      "region": "us-east-1",
+      "severity": "HIGH",
+      "title": "Security group does not expose RDP (3389) to the internet",
+      "description": "RDP open to the internet is a leading ransomware entry point.",
+      "current_state": "RDP (3389) open to ::/0",
+      "expected_state": "No inbound rule allowing 0.0.0.0/0 or ::/0 on TCP 3389",
+      "status": "FAIL",
+      "remediation": [
+        "Remove the world-open RDP rule or restrict to a trusted CIDR/VPN.",
+        "Use Systems Manager Fleet Manager / Session Manager port forwarding or a bastion behind a VPN."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "5.2",
+            "title": "No security groups allow ingress from 0.0.0.0/0 to remote server administration ports",
+            "confidence": "exact"
+          },
+          {
+            "control_id": "5.3",
+            "title": "No security groups allow ingress from ::/0 to remote server administration ports",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.20",
+            "title": "Networks security",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "1.3.1",
+            "title": "Inbound traffic to the CDE restricted",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "EC2-003",
+      "service": "EC2",
+      "resource": "sg-974ffc347a4747397 (vpc-e20ee4fe440805c9e)",
+      "region": "us-east-1",
+      "severity": "MEDIUM",
+      "title": "Default security group restricts all traffic",
+      "description": "Resources launched without an explicit group fall into the default SG; it should allow nothing.",
+      "current_state": "0 inbound and 1 outbound rule(s)",
+      "expected_state": "Default security group has no inbound and no outbound rules",
+      "status": "FAIL",
+      "remediation": [
+        "Remove all inbound and outbound rules from the default security group of each VPC.",
+        "Create purpose-specific security groups and attach those to resources."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "5.4",
+            "title": "Ensure the default security group of every VPC restricts all traffic",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.20",
+            "title": "Networks security",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "1.3.1",
+            "title": "Inbound traffic to the CDE restricted",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "EC2-003",
+      "service": "EC2",
+      "resource": "sg-b7c0c2fd9f6251764 (vpc-994610abdebd3c859)",
+      "region": "us-east-1",
+      "severity": "MEDIUM",
+      "title": "Default security group restricts all traffic",
+      "description": "Resources launched without an explicit group fall into the default SG; it should allow nothing.",
+      "current_state": "0 inbound and 1 outbound rule(s)",
+      "expected_state": "Default security group has no inbound and no outbound rules",
+      "status": "FAIL",
+      "remediation": [
+        "Remove all inbound and outbound rules from the default security group of each VPC.",
+        "Create purpose-specific security groups and attach those to resources."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "5.4",
+            "title": "Ensure the default security group of every VPC restricts all traffic",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.20",
+            "title": "Networks security",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "1.3.1",
+            "title": "Inbound traffic to the CDE restricted",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "EC2-004",
+      "service": "EC2",
+      "resource": "ebs-default-encryption/us-east-1",
+      "region": "us-east-1",
+      "severity": "MEDIUM",
+      "title": "EBS encryption by default is enabled in the region",
+      "description": "With the account-level default on, every new EBS volume and snapshot copy is encrypted automatically.",
+      "current_state": "Enabled",
+      "expected_state": "EBS encryption by default is enabled in every region",
+      "status": "PASS",
+      "remediation": [
+        "EC2 > Settings > Data protection and security > EBS encryption > Manage > Enable (repeat per region)."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "2.2.1",
+            "title": "Ensure EBS Volume Encryption is Enabled in all Regions",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.24",
+            "title": "Use of cryptography",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "3.5.1",
+            "title": "Stored account data rendered unreadable",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "EC2-005",
+      "service": "EC2",
+      "resource": "vol-cf7b3a00759516c3f",
+      "region": "us-east-1",
+      "severity": "MEDIUM",
+      "title": "EBS volume is encrypted",
+      "description": "Unencrypted volumes expose data if snapshots are shared or the underlying media is mishandled.",
+      "current_state": "NOT encrypted",
+      "expected_state": "Volume Encrypted = true",
+      "status": "FAIL",
+      "remediation": [
+        "Snapshot the volume, copy the snapshot with encryption enabled, and create a new volume from it.",
+        "Swap the volume on the instance during a maintenance window, then delete the unencrypted volume/snapshots."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "2.2.1",
+            "title": "Ensure EBS Volume Encryption is Enabled in all Regions (volume-level evidence)",
+            "confidence": "approximate"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.24",
+            "title": "Use of cryptography",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "3.5.1",
+            "title": "Stored account data rendered unreadable",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "EC2-005",
+      "service": "EC2",
+      "resource": "vol-050b33df082f1a4fa",
+      "region": "us-east-1",
+      "severity": "MEDIUM",
+      "title": "EBS volume is encrypted",
+      "description": "Unencrypted volumes expose data if snapshots are shared or the underlying media is mishandled.",
+      "current_state": "NOT encrypted",
+      "expected_state": "Volume Encrypted = true",
+      "status": "FAIL",
+      "remediation": [
+        "Snapshot the volume, copy the snapshot with encryption enabled, and create a new volume from it.",
+        "Swap the volume on the instance during a maintenance window, then delete the unencrypted volume/snapshots."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "2.2.1",
+            "title": "Ensure EBS Volume Encryption is Enabled in all Regions (volume-level evidence)",
+            "confidence": "approximate"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.24",
+            "title": "Use of cryptography",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "3.5.1",
+            "title": "Stored account data rendered unreadable",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "EC2-005",
+      "service": "EC2",
+      "resource": "vol-447ef2430d214e9c6",
+      "region": "us-east-1",
+      "severity": "MEDIUM",
+      "title": "EBS volume is encrypted",
+      "description": "Unencrypted volumes expose data if snapshots are shared or the underlying media is mishandled.",
+      "current_state": "Encrypted",
+      "expected_state": "Volume Encrypted = true",
+      "status": "PASS",
+      "remediation": [
+        "Snapshot the volume, copy the snapshot with encryption enabled, and create a new volume from it.",
+        "Swap the volume on the instance during a maintenance window, then delete the unencrypted volume/snapshots."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "2.2.1",
+            "title": "Ensure EBS Volume Encryption is Enabled in all Regions (volume-level evidence)",
+            "confidence": "approximate"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.24",
+            "title": "Use of cryptography",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "3.5.1",
+            "title": "Stored account data rendered unreadable",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "EC2-006",
+      "service": "EC2",
+      "resource": "i-2c1c505d715517912",
+      "region": "us-east-1",
+      "severity": "MEDIUM",
+      "title": "Instance requires IMDSv2",
+      "description": "IMDSv1 is vulnerable to SSRF-based credential theft (e.g. the 2019 Capital One breach pattern).",
+      "current_state": "HttpTokens = optional",
+      "expected_state": "Instance metadata option HttpTokens = required",
+      "status": "FAIL",
+      "remediation": [
+        "EC2 > instance > Actions > Instance settings > Modify instance metadata options > IMDSv2 'Required'.",
+        "Set the account/region default for new instances to IMDSv2 required."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "5.6",
+            "title": "Ensure that EC2 Metadata Service only allows IMDSv2",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.9",
+            "title": "Configuration management",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "2.2.1",
+            "title": "Configuration standards",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "IAM-001",
+      "service": "IAM",
+      "resource": "<root_account>",
+      "region": "global",
+      "severity": "CRITICAL",
+      "title": "MFA is enabled for the root user",
+      "description": "The root user has unrestricted access to the account. Without MFA, a leaked password gives full account takeover.",
+      "current_state": "Root MFA is NOT enabled",
+      "expected_state": "Root user has an MFA device registered",
+      "status": "FAIL",
+      "remediation": [
+        "Sign in as the root user and open Security credentials.",
+        "Under Multi-factor authentication (MFA), choose Assign MFA device and complete enrolment (prefer a hardware/FIDO2 key).",
+        "Store the root credentials and recovery material offline; use the root user only for tasks that require it."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "1.5",
+            "title": "Ensure MFA is enabled for the root user account",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.5",
+            "title": "Secure authentication",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "8.4.2",
+            "title": "MFA for all access into the CDE",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "IAM-002",
+      "service": "IAM",
+      "resource": "<root_account>",
+      "region": "global",
+      "severity": "CRITICAL",
+      "title": "No access keys exist for the root user",
+      "description": "Root access keys are long-lived credentials with unrestricted privileges and cannot be scoped down.",
+      "current_state": "0 root access key(s) present",
+      "expected_state": "No root access keys",
+      "status": "PASS",
+      "remediation": [
+        "Sign in as the root user, open Security credentials > Access keys.",
+        "Make each root access key inactive, confirm nothing breaks, then delete it.",
+        "Use IAM roles / IAM Identity Center for programmatic access instead."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "1.4",
+            "title": "Ensure no root user account access key exists",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.2",
+            "title": "Privileged access rights",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "7.2.2",
+            "title": "Access based on least privilege",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "IAM-003",
+      "service": "IAM",
+      "resource": "<root_account>",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Root user does not use a virtual MFA device",
+      "description": "CIS recommends a hardware MFA device for root. The API exposes virtual MFA devices by serial number but cannot distinguish a hardware token from a FIDO2/passkey, so PASS means 'MFA present and not virtual'.",
+      "current_state": "Root MFA is not enabled at all",
+      "expected_state": "Root MFA is a hardware / FIDO2 device (not a virtual authenticator app)",
+      "status": "FAIL",
+      "remediation": [
+        "Sign in as root > Security credentials > MFA.",
+        "Remove the virtual MFA device and register a hardware TOTP token or FIDO2 security key."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "1.6",
+            "title": "Ensure hardware MFA is enabled for the root user account",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.5",
+            "title": "Secure authentication",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "8.4.2",
+            "title": "MFA for all access into the CDE",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "IAM-004",
+      "service": "IAM",
+      "resource": "alice",
+      "region": "global",
+      "severity": "HIGH",
+      "title": "MFA is enabled for all IAM users with a console password",
+      "description": "Console users without MFA are exposed to password phishing, reuse and brute force.",
+      "current_state": "Console password set but no MFA",
+      "expected_state": "Every IAM user with a console password has MFA active",
+      "status": "FAIL",
+      "remediation": [
+        "IAM > Users > select the user > Security credentials > Assign MFA device.",
+        "Better: remove IAM console users and federate through IAM Identity Center with enforced MFA."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "1.10",
+            "title": "Ensure MFA is enabled for all IAM users that have a console password",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.5",
+            "title": "Secure authentication",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "8.4.2",
+            "title": "MFA for all access into the CDE",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "IAM-004",
+      "service": "IAM",
+      "resource": "bob",
+      "region": "global",
+      "severity": "HIGH",
+      "title": "MFA is enabled for all IAM users with a console password",
+      "description": "Console users without MFA are exposed to password phishing, reuse and brute force.",
+      "current_state": "Console password set but no MFA",
+      "expected_state": "Every IAM user with a console password has MFA active",
+      "status": "FAIL",
+      "remediation": [
+        "IAM > Users > select the user > Security credentials > Assign MFA device.",
+        "Better: remove IAM console users and federate through IAM Identity Center with enforced MFA."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "1.10",
+            "title": "Ensure MFA is enabled for all IAM users that have a console password",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.5",
+            "title": "Secure authentication",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "8.4.2",
+            "title": "MFA for all access into the CDE",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "IAM-005",
+      "service": "IAM",
+      "resource": "alice/access_key_1",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Active access keys are rotated within 90 days",
+      "description": "Long-lived access keys increase the window in which a leaked key can be abused.",
+      "current_state": "Key is 0 days old (max 90)",
+      "expected_state": "Every active access key was created/rotated within the configured maximum age (default 90 days)",
+      "status": "PASS",
+      "remediation": [
+        "Create a second key for the user, update the application to use it, and verify.",
+        "Deactivate then delete the old key.",
+        "Prefer IAM roles with temporary credentials so no long-lived key exists."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "1.14",
+            "title": "Ensure access keys are rotated every 90 days or less",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.5.17",
+            "title": "Authentication information",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "8.3.9",
+            "title": "Periodic password/credential change",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "IAM-005",
+      "service": "IAM",
+      "resource": "alice/access_key_2",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Active access keys are rotated within 90 days",
+      "description": "Long-lived access keys increase the window in which a leaked key can be abused.",
+      "current_state": "Key is 0 days old (max 90)",
+      "expected_state": "Every active access key was created/rotated within the configured maximum age (default 90 days)",
+      "status": "PASS",
+      "remediation": [
+        "Create a second key for the user, update the application to use it, and verify.",
+        "Deactivate then delete the old key.",
+        "Prefer IAM roles with temporary credentials so no long-lived key exists."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "1.14",
+            "title": "Ensure access keys are rotated every 90 days or less",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.5.17",
+            "title": "Authentication information",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "8.3.9",
+            "title": "Periodic password/credential change",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "IAM-005",
+      "service": "IAM",
+      "resource": "svc-deploy/access_key_1",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Active access keys are rotated within 90 days",
+      "description": "Long-lived access keys increase the window in which a leaked key can be abused.",
+      "current_state": "Key is 0 days old (max 90)",
+      "expected_state": "Every active access key was created/rotated within the configured maximum age (default 90 days)",
+      "status": "PASS",
+      "remediation": [
+        "Create a second key for the user, update the application to use it, and verify.",
+        "Deactivate then delete the old key.",
+        "Prefer IAM roles with temporary credentials so no long-lived key exists."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "1.14",
+            "title": "Ensure access keys are rotated every 90 days or less",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.5.17",
+            "title": "Authentication information",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "8.3.9",
+            "title": "Periodic password/credential change",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "IAM-006",
+      "service": "IAM",
+      "resource": "alice",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Credentials unused for 45+ days are disabled",
+      "description": "Dormant passwords and access keys are rarely monitored and are prime targets for takeover.",
+      "current_state": "All credentials used within 45 days",
+      "expected_state": "No active password or access key has gone unused longer than the configured maximum (default 45 days)",
+      "status": "PASS",
+      "remediation": [
+        "Confirm the credential is no longer needed with its owner.",
+        "Deactivate the access key / remove the console password, or delete the IAM user."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "1.12",
+            "title": "Ensure credentials unused for 45 days or more are disabled",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.5.18",
+            "title": "Access rights",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "8.2.6",
+            "title": "Inactive accounts removed/disabled",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.2",
+            "title": "Access provisioning and removal",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "IAM-006",
+      "service": "IAM",
+      "resource": "svc-deploy",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Credentials unused for 45+ days are disabled",
+      "description": "Dormant passwords and access keys are rarely monitored and are prime targets for takeover.",
+      "current_state": "All credentials used within 45 days",
+      "expected_state": "No active password or access key has gone unused longer than the configured maximum (default 45 days)",
+      "status": "PASS",
+      "remediation": [
+        "Confirm the credential is no longer needed with its owner.",
+        "Deactivate the access key / remove the console password, or delete the IAM user."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "1.12",
+            "title": "Ensure credentials unused for 45 days or more are disabled",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.5.18",
+            "title": "Access rights",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "8.2.6",
+            "title": "Inactive accounts removed/disabled",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.2",
+            "title": "Access provisioning and removal",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "IAM-006",
+      "service": "IAM",
+      "resource": "bob",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Credentials unused for 45+ days are disabled",
+      "description": "Dormant passwords and access keys are rarely monitored and are prime targets for takeover.",
+      "current_state": "All credentials used within 45 days",
+      "expected_state": "No active password or access key has gone unused longer than the configured maximum (default 45 days)",
+      "status": "PASS",
+      "remediation": [
+        "Confirm the credential is no longer needed with its owner.",
+        "Deactivate the access key / remove the console password, or delete the IAM user."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "1.12",
+            "title": "Ensure credentials unused for 45 days or more are disabled",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.5.18",
+            "title": "Access rights",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "8.2.6",
+            "title": "Inactive accounts removed/disabled",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.2",
+            "title": "Access provisioning and removal",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "IAM-007",
+      "service": "IAM",
+      "resource": "account-password-policy",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Password policy requires a minimum length of 14",
+      "description": "Short passwords are easy to brute-force. Without a custom policy AWS defaults to 8 characters.",
+      "current_state": "Minimum length is 14 (required 14)",
+      "expected_state": "Account password policy minimum length >= 14 (configurable)",
+      "status": "PASS",
+      "remediation": [
+        "IAM > Account settings > Password policy > Edit, set minimum password length to 14 or more."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "1.8",
+            "title": "Ensure IAM password policy requires minimum length of 14 or greater",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.5.17",
+            "title": "Authentication information",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "8.3.6",
+            "title": "Minimum password length",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "IAM-008",
+      "service": "IAM",
+      "resource": "account-password-policy",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Password policy prevents reuse of the last 24 passwords",
+      "description": "Allowing reuse undermines rotation: users cycle back to compromised passwords.",
+      "current_state": "Remembers 24 previous passwords (required 24)",
+      "expected_state": "Password reuse prevention >= 24 (configurable)",
+      "status": "PASS",
+      "remediation": [
+        "IAM > Account settings > Password policy > Edit, enable 'Prevent password reuse' with 24 remembered passwords."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "1.9",
+            "title": "Ensure IAM password policy prevents password reuse",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.5.17",
+            "title": "Authentication information",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "8.3.7",
+            "title": "Password history",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "IAM-009",
+      "service": "IAM",
+      "resource": "alice",
+      "region": "global",
+      "severity": "LOW",
+      "title": "Each IAM user has at most one active access key",
+      "description": "Multiple active keys per user widen the attack surface and often indicate skipped rotation clean-up.",
+      "current_state": "2 active access key(s)",
+      "expected_state": "At most one active access key per IAM user",
+      "status": "FAIL",
+      "remediation": [
+        "Identify which key is in use (last-used date), then deactivate and delete the other."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "1.13",
+            "title": "Ensure there is only one active access key available for any single IAM user",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.5.18",
+            "title": "Access rights",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "7.2.2",
+            "title": "Access based on least privilege",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.3",
+            "title": "Role-based access / least privilege",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "IAM-009",
+      "service": "IAM",
+      "resource": "svc-deploy",
+      "region": "global",
+      "severity": "LOW",
+      "title": "Each IAM user has at most one active access key",
+      "description": "Multiple active keys per user widen the attack surface and often indicate skipped rotation clean-up.",
+      "current_state": "1 active access key(s)",
+      "expected_state": "At most one active access key per IAM user",
+      "status": "PASS",
+      "remediation": [
+        "Identify which key is in use (last-used date), then deactivate and delete the other."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "1.13",
+            "title": "Ensure there is only one active access key available for any single IAM user",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.5.18",
+            "title": "Access rights",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "7.2.2",
+            "title": "Access based on least privilege",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.3",
+            "title": "Role-based access / least privilege",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "IAM-010",
+      "service": "IAM",
+      "resource": "legacy-admin",
+      "region": "global",
+      "severity": "HIGH",
+      "title": "No attached customer-managed policy grants full \"*:*\" admin access",
+      "description": "Policies allowing Action '*' on Resource '*' violate least privilege. Scope: customer-managed policies that are attached to at least one identity (AWS-managed AdministratorAccess is not evaluated).",
+      "current_state": "Allows *:* (full admin)",
+      "expected_state": "No attached customer-managed policy allows Action \"*\" on Resource \"*\"",
+      "status": "FAIL",
+      "remediation": [
+        "Replace the policy with scoped permissions (use IAM Access Analyzer policy generation from CloudTrail activity).",
+        "Detach the over-permissive policy once replacements are in place."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "1.16",
+            "title": "Ensure IAM policies that allow full \"*:*\" administrative privileges are not attached",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.2",
+            "title": "Privileged access rights",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "7.2.2",
+            "title": "Access based on least privilege",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.3",
+            "title": "Role-based access / least privilege",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "IAM-011",
+      "service": "IAM",
+      "resource": "alice",
+      "region": "global",
+      "severity": "LOW",
+      "title": "IAM users receive permissions only through groups",
+      "description": "Direct user policies are hard to audit and tend to accumulate; group/role-based access is reviewable.",
+      "current_state": "Direct policies: legacy-admin",
+      "expected_state": "No managed or inline policies attached directly to IAM users",
+      "status": "FAIL",
+      "remediation": [
+        "Create a group per job function and attach the policies to it.",
+        "Add the user to the group, then detach/delete the user's direct policies."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "1.15",
+            "title": "Ensure IAM users receive permissions only through groups",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.5.15",
+            "title": "Access control",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "7.2.1",
+            "title": "Access control model defined",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.3",
+            "title": "Role-based access / least privilege",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "IAM-011",
+      "service": "IAM",
+      "resource": "svc-deploy",
+      "region": "global",
+      "severity": "LOW",
+      "title": "IAM users receive permissions only through groups",
+      "description": "Direct user policies are hard to audit and tend to accumulate; group/role-based access is reviewable.",
+      "current_state": "No direct policies",
+      "expected_state": "No managed or inline policies attached directly to IAM users",
+      "status": "PASS",
+      "remediation": [
+        "Create a group per job function and attach the policies to it.",
+        "Add the user to the group, then detach/delete the user's direct policies."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "1.15",
+            "title": "Ensure IAM users receive permissions only through groups",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.5.15",
+            "title": "Access control",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "7.2.1",
+            "title": "Access control model defined",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.3",
+            "title": "Role-based access / least privilege",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "IAM-011",
+      "service": "IAM",
+      "resource": "bob",
+      "region": "global",
+      "severity": "LOW",
+      "title": "IAM users receive permissions only through groups",
+      "description": "Direct user policies are hard to audit and tend to accumulate; group/role-based access is reviewable.",
+      "current_state": "No direct policies",
+      "expected_state": "No managed or inline policies attached directly to IAM users",
+      "status": "PASS",
+      "remediation": [
+        "Create a group per job function and attach the policies to it.",
+        "Add the user to the group, then detach/delete the user's direct policies."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "1.15",
+            "title": "Ensure IAM users receive permissions only through groups",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.5.15",
+            "title": "Access control",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "7.2.1",
+            "title": "Access control model defined",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.3",
+            "title": "Role-based access / least privilege",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-001",
+      "service": "S3",
+      "resource": "account/123456789012",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Account-level S3 Block Public Access is fully enabled",
+      "description": "The account-level setting is a guardrail that overrides bucket-level configuration for every bucket.",
+      "current_state": "No public access block configured",
+      "expected_state": "All four account-level Block Public Access settings are enabled",
+      "status": "FAIL",
+      "remediation": [
+        "S3 console > Block Public Access settings for this account > Edit > enable all four settings."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "2.1.4",
+            "title": "Ensure S3 is configured with 'Block Public Access' (account level)",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.3",
+            "title": "Information access restriction",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "7.2.1",
+            "title": "Access control model defined",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-002",
+      "service": "S3",
+      "resource": "acme-internal-data",
+      "region": "global",
+      "severity": "HIGH",
+      "title": "Bucket-level Block Public Access is fully enabled",
+      "description": "Without bucket-level blocks, a permissive ACL or bucket policy can expose data publicly.",
+      "current_state": "No public access block configured",
+      "expected_state": "All four Block Public Access settings are enabled on the bucket",
+      "status": "FAIL",
+      "remediation": [
+        "S3 > bucket > Permissions > Block public access (bucket settings) > Edit > enable all four settings."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "2.1.4",
+            "title": "Ensure S3 is configured with 'Block Public Access' (bucket level)",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.3",
+            "title": "Information access restriction",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "7.2.1",
+            "title": "Access control model defined",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-002",
+      "service": "S3",
+      "resource": "acme-logs-archive",
+      "region": "global",
+      "severity": "HIGH",
+      "title": "Bucket-level Block Public Access is fully enabled",
+      "description": "Without bucket-level blocks, a permissive ACL or bucket policy can expose data publicly.",
+      "current_state": "All 4 settings enabled",
+      "expected_state": "All four Block Public Access settings are enabled on the bucket",
+      "status": "PASS",
+      "remediation": [
+        "S3 > bucket > Permissions > Block public access (bucket settings) > Edit > enable all four settings."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "2.1.4",
+            "title": "Ensure S3 is configured with 'Block Public Access' (bucket level)",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.3",
+            "title": "Information access restriction",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "7.2.1",
+            "title": "Access control model defined",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-002",
+      "service": "S3",
+      "resource": "acme-public-assets",
+      "region": "global",
+      "severity": "HIGH",
+      "title": "Bucket-level Block Public Access is fully enabled",
+      "description": "Without bucket-level blocks, a permissive ACL or bucket policy can expose data publicly.",
+      "current_state": "No public access block configured",
+      "expected_state": "All four Block Public Access settings are enabled on the bucket",
+      "status": "FAIL",
+      "remediation": [
+        "S3 > bucket > Permissions > Block public access (bucket settings) > Edit > enable all four settings."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "2.1.4",
+            "title": "Ensure S3 is configured with 'Block Public Access' (bucket level)",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.3",
+            "title": "Information access restriction",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "7.2.1",
+            "title": "Access control model defined",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-002",
+      "service": "S3",
+      "resource": "acme-trail-logs",
+      "region": "global",
+      "severity": "HIGH",
+      "title": "Bucket-level Block Public Access is fully enabled",
+      "description": "Without bucket-level blocks, a permissive ACL or bucket policy can expose data publicly.",
+      "current_state": "No public access block configured",
+      "expected_state": "All four Block Public Access settings are enabled on the bucket",
+      "status": "FAIL",
+      "remediation": [
+        "S3 > bucket > Permissions > Block public access (bucket settings) > Edit > enable all four settings."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "2.1.4",
+            "title": "Ensure S3 is configured with 'Block Public Access' (bucket level)",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.3",
+            "title": "Information access restriction",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "7.2.1",
+            "title": "Access control model defined",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-002",
+      "service": "S3",
+      "resource": "secure-bucket",
+      "region": "global",
+      "severity": "HIGH",
+      "title": "Bucket-level Block Public Access is fully enabled",
+      "description": "Without bucket-level blocks, a permissive ACL or bucket policy can expose data publicly.",
+      "current_state": "All 4 settings enabled",
+      "expected_state": "All four Block Public Access settings are enabled on the bucket",
+      "status": "PASS",
+      "remediation": [
+        "S3 > bucket > Permissions > Block public access (bucket settings) > Edit > enable all four settings."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "2.1.4",
+            "title": "Ensure S3 is configured with 'Block Public Access' (bucket level)",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.3",
+            "title": "Information access restriction",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "7.2.1",
+            "title": "Access control model defined",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-002",
+      "service": "S3",
+      "resource": "secure-trail-logs",
+      "region": "global",
+      "severity": "HIGH",
+      "title": "Bucket-level Block Public Access is fully enabled",
+      "description": "Without bucket-level blocks, a permissive ACL or bucket policy can expose data publicly.",
+      "current_state": "No public access block configured",
+      "expected_state": "All four Block Public Access settings are enabled on the bucket",
+      "status": "FAIL",
+      "remediation": [
+        "S3 > bucket > Permissions > Block public access (bucket settings) > Edit > enable all four settings."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "2.1.4",
+            "title": "Ensure S3 is configured with 'Block Public Access' (bucket level)",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.3",
+            "title": "Information access restriction",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "7.2.1",
+            "title": "Access control model defined",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-003",
+      "service": "S3",
+      "resource": "acme-internal-data",
+      "region": "global",
+      "severity": "CRITICAL",
+      "title": "Bucket is not publicly accessible via policy or ACL",
+      "description": "Evaluates the bucket policy (AWS policy-status analysis) and ACL grants to AllUsers/AuthenticatedUsers. Reports the configured access, before Block Public Access is applied.",
+      "current_state": "Not public by policy or ACL",
+      "expected_state": "No public bucket policy and no ACL grants to AllUsers or AuthenticatedUsers",
+      "status": "PASS",
+      "remediation": [
+        "Remove ACL grants to 'Everyone' / 'Authenticated users' (Permissions > ACL).",
+        "Restrict bucket policy principals/conditions; enable Block Public Access.",
+        "Serve intended-public content through CloudFront with Origin Access Control instead."
+      ],
+      "mappings": {
+        "ISO27001": [
+          {
+            "control_id": "A.8.3",
+            "title": "Information access restriction",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "7.2.1",
+            "title": "Access control model defined",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-003",
+      "service": "S3",
+      "resource": "acme-logs-archive",
+      "region": "global",
+      "severity": "CRITICAL",
+      "title": "Bucket is not publicly accessible via policy or ACL",
+      "description": "Evaluates the bucket policy (AWS policy-status analysis) and ACL grants to AllUsers/AuthenticatedUsers. Reports the configured access, before Block Public Access is applied.",
+      "current_state": "Not public by policy or ACL",
+      "expected_state": "No public bucket policy and no ACL grants to AllUsers or AuthenticatedUsers",
+      "status": "PASS",
+      "remediation": [
+        "Remove ACL grants to 'Everyone' / 'Authenticated users' (Permissions > ACL).",
+        "Restrict bucket policy principals/conditions; enable Block Public Access.",
+        "Serve intended-public content through CloudFront with Origin Access Control instead."
+      ],
+      "mappings": {
+        "ISO27001": [
+          {
+            "control_id": "A.8.3",
+            "title": "Information access restriction",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "7.2.1",
+            "title": "Access control model defined",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-003",
+      "service": "S3",
+      "resource": "acme-public-assets",
+      "region": "global",
+      "severity": "CRITICAL",
+      "title": "Bucket is not publicly accessible via policy or ACL",
+      "description": "Evaluates the bucket policy (AWS policy-status analysis) and ACL grants to AllUsers/AuthenticatedUsers. Reports the configured access, before Block Public Access is applied.",
+      "current_state": "ACL grants READ to AllUsers",
+      "expected_state": "No public bucket policy and no ACL grants to AllUsers or AuthenticatedUsers",
+      "status": "FAIL",
+      "remediation": [
+        "Remove ACL grants to 'Everyone' / 'Authenticated users' (Permissions > ACL).",
+        "Restrict bucket policy principals/conditions; enable Block Public Access.",
+        "Serve intended-public content through CloudFront with Origin Access Control instead."
+      ],
+      "mappings": {
+        "ISO27001": [
+          {
+            "control_id": "A.8.3",
+            "title": "Information access restriction",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "7.2.1",
+            "title": "Access control model defined",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-003",
+      "service": "S3",
+      "resource": "acme-trail-logs",
+      "region": "global",
+      "severity": "CRITICAL",
+      "title": "Bucket is not publicly accessible via policy or ACL",
+      "description": "Evaluates the bucket policy (AWS policy-status analysis) and ACL grants to AllUsers/AuthenticatedUsers. Reports the configured access, before Block Public Access is applied.",
+      "current_state": "Not public by policy or ACL",
+      "expected_state": "No public bucket policy and no ACL grants to AllUsers or AuthenticatedUsers",
+      "status": "PASS",
+      "remediation": [
+        "Remove ACL grants to 'Everyone' / 'Authenticated users' (Permissions > ACL).",
+        "Restrict bucket policy principals/conditions; enable Block Public Access.",
+        "Serve intended-public content through CloudFront with Origin Access Control instead."
+      ],
+      "mappings": {
+        "ISO27001": [
+          {
+            "control_id": "A.8.3",
+            "title": "Information access restriction",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "7.2.1",
+            "title": "Access control model defined",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-003",
+      "service": "S3",
+      "resource": "secure-bucket",
+      "region": "global",
+      "severity": "CRITICAL",
+      "title": "Bucket is not publicly accessible via policy or ACL",
+      "description": "Evaluates the bucket policy (AWS policy-status analysis) and ACL grants to AllUsers/AuthenticatedUsers. Reports the configured access, before Block Public Access is applied.",
+      "current_state": "Not public by policy or ACL",
+      "expected_state": "No public bucket policy and no ACL grants to AllUsers or AuthenticatedUsers",
+      "status": "PASS",
+      "remediation": [
+        "Remove ACL grants to 'Everyone' / 'Authenticated users' (Permissions > ACL).",
+        "Restrict bucket policy principals/conditions; enable Block Public Access.",
+        "Serve intended-public content through CloudFront with Origin Access Control instead."
+      ],
+      "mappings": {
+        "ISO27001": [
+          {
+            "control_id": "A.8.3",
+            "title": "Information access restriction",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "7.2.1",
+            "title": "Access control model defined",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-003",
+      "service": "S3",
+      "resource": "secure-trail-logs",
+      "region": "global",
+      "severity": "CRITICAL",
+      "title": "Bucket is not publicly accessible via policy or ACL",
+      "description": "Evaluates the bucket policy (AWS policy-status analysis) and ACL grants to AllUsers/AuthenticatedUsers. Reports the configured access, before Block Public Access is applied.",
+      "current_state": "Not public by policy or ACL",
+      "expected_state": "No public bucket policy and no ACL grants to AllUsers or AuthenticatedUsers",
+      "status": "PASS",
+      "remediation": [
+        "Remove ACL grants to 'Everyone' / 'Authenticated users' (Permissions > ACL).",
+        "Restrict bucket policy principals/conditions; enable Block Public Access.",
+        "Serve intended-public content through CloudFront with Origin Access Control instead."
+      ],
+      "mappings": {
+        "ISO27001": [
+          {
+            "control_id": "A.8.3",
+            "title": "Information access restriction",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "7.2.1",
+            "title": "Access control model defined",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "1.4.2",
+            "title": "Inbound traffic from untrusted networks restricted",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          },
+          {
+            "control_id": "CC6.6",
+            "title": "Boundary protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-004",
+      "service": "S3",
+      "resource": "acme-internal-data",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Bucket has default encryption configured",
+      "description": "Default encryption ensures every new object is encrypted at rest (SSE-S3 is applied automatically by AWS to new buckets since Jan 2023).",
+      "current_state": "Default encryption: AES256",
+      "expected_state": "Default server-side encryption is configured (SSE-S3 or SSE-KMS)",
+      "status": "PASS",
+      "remediation": [
+        "S3 > bucket > Properties > Default encryption > Edit; choose SSE-S3 or SSE-KMS (KMS for key-level audit and control)."
+      ],
+      "mappings": {
+        "ISO27001": [
+          {
+            "control_id": "A.8.24",
+            "title": "Use of cryptography",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "3.5.1",
+            "title": "Stored account data rendered unreadable",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-004",
+      "service": "S3",
+      "resource": "acme-logs-archive",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Bucket has default encryption configured",
+      "description": "Default encryption ensures every new object is encrypted at rest (SSE-S3 is applied automatically by AWS to new buckets since Jan 2023).",
+      "current_state": "No default encryption configured",
+      "expected_state": "Default server-side encryption is configured (SSE-S3 or SSE-KMS)",
+      "status": "FAIL",
+      "remediation": [
+        "S3 > bucket > Properties > Default encryption > Edit; choose SSE-S3 or SSE-KMS (KMS for key-level audit and control)."
+      ],
+      "mappings": {
+        "ISO27001": [
+          {
+            "control_id": "A.8.24",
+            "title": "Use of cryptography",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "3.5.1",
+            "title": "Stored account data rendered unreadable",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-004",
+      "service": "S3",
+      "resource": "acme-public-assets",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Bucket has default encryption configured",
+      "description": "Default encryption ensures every new object is encrypted at rest (SSE-S3 is applied automatically by AWS to new buckets since Jan 2023).",
+      "current_state": "No default encryption configured",
+      "expected_state": "Default server-side encryption is configured (SSE-S3 or SSE-KMS)",
+      "status": "FAIL",
+      "remediation": [
+        "S3 > bucket > Properties > Default encryption > Edit; choose SSE-S3 or SSE-KMS (KMS for key-level audit and control)."
+      ],
+      "mappings": {
+        "ISO27001": [
+          {
+            "control_id": "A.8.24",
+            "title": "Use of cryptography",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "3.5.1",
+            "title": "Stored account data rendered unreadable",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-004",
+      "service": "S3",
+      "resource": "acme-trail-logs",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Bucket has default encryption configured",
+      "description": "Default encryption ensures every new object is encrypted at rest (SSE-S3 is applied automatically by AWS to new buckets since Jan 2023).",
+      "current_state": "No default encryption configured",
+      "expected_state": "Default server-side encryption is configured (SSE-S3 or SSE-KMS)",
+      "status": "FAIL",
+      "remediation": [
+        "S3 > bucket > Properties > Default encryption > Edit; choose SSE-S3 or SSE-KMS (KMS for key-level audit and control)."
+      ],
+      "mappings": {
+        "ISO27001": [
+          {
+            "control_id": "A.8.24",
+            "title": "Use of cryptography",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "3.5.1",
+            "title": "Stored account data rendered unreadable",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-004",
+      "service": "S3",
+      "resource": "secure-bucket",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Bucket has default encryption configured",
+      "description": "Default encryption ensures every new object is encrypted at rest (SSE-S3 is applied automatically by AWS to new buckets since Jan 2023).",
+      "current_state": "Default encryption: aws:kms",
+      "expected_state": "Default server-side encryption is configured (SSE-S3 or SSE-KMS)",
+      "status": "PASS",
+      "remediation": [
+        "S3 > bucket > Properties > Default encryption > Edit; choose SSE-S3 or SSE-KMS (KMS for key-level audit and control)."
+      ],
+      "mappings": {
+        "ISO27001": [
+          {
+            "control_id": "A.8.24",
+            "title": "Use of cryptography",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "3.5.1",
+            "title": "Stored account data rendered unreadable",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-004",
+      "service": "S3",
+      "resource": "secure-trail-logs",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Bucket has default encryption configured",
+      "description": "Default encryption ensures every new object is encrypted at rest (SSE-S3 is applied automatically by AWS to new buckets since Jan 2023).",
+      "current_state": "No default encryption configured",
+      "expected_state": "Default server-side encryption is configured (SSE-S3 or SSE-KMS)",
+      "status": "FAIL",
+      "remediation": [
+        "S3 > bucket > Properties > Default encryption > Edit; choose SSE-S3 or SSE-KMS (KMS for key-level audit and control)."
+      ],
+      "mappings": {
+        "ISO27001": [
+          {
+            "control_id": "A.8.24",
+            "title": "Use of cryptography",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "3.5.1",
+            "title": "Stored account data rendered unreadable",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.1",
+            "title": "Logical access security",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-005",
+      "service": "S3",
+      "resource": "acme-internal-data",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Bucket policy denies non-TLS (HTTP) requests",
+      "description": "Without an aws:SecureTransport deny, clients can read/write objects over unencrypted HTTP.",
+      "current_state": "No bucket policy; HTTP requests are allowed",
+      "expected_state": "Bucket policy contains a Deny for Principal * when aws:SecureTransport is false",
+      "status": "FAIL",
+      "remediation": [
+        "Add a bucket policy statement: Effect Deny, Principal \"*\", Action \"s3:*\", Resource bucket ARN and bucket ARN/*, Condition {\"Bool\": {\"aws:SecureTransport\": \"false\"}}."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "2.1.1",
+            "title": "Ensure S3 Bucket Policy is set to deny HTTP requests",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.24",
+            "title": "Use of cryptography",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "4.2.1",
+            "title": "Strong cryptography for transmission",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.7",
+            "title": "Data transmission protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-005",
+      "service": "S3",
+      "resource": "acme-logs-archive",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Bucket policy denies non-TLS (HTTP) requests",
+      "description": "Without an aws:SecureTransport deny, clients can read/write objects over unencrypted HTTP.",
+      "current_state": "No bucket policy; HTTP requests are allowed",
+      "expected_state": "Bucket policy contains a Deny for Principal * when aws:SecureTransport is false",
+      "status": "FAIL",
+      "remediation": [
+        "Add a bucket policy statement: Effect Deny, Principal \"*\", Action \"s3:*\", Resource bucket ARN and bucket ARN/*, Condition {\"Bool\": {\"aws:SecureTransport\": \"false\"}}."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "2.1.1",
+            "title": "Ensure S3 Bucket Policy is set to deny HTTP requests",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.24",
+            "title": "Use of cryptography",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "4.2.1",
+            "title": "Strong cryptography for transmission",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.7",
+            "title": "Data transmission protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-005",
+      "service": "S3",
+      "resource": "acme-public-assets",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Bucket policy denies non-TLS (HTTP) requests",
+      "description": "Without an aws:SecureTransport deny, clients can read/write objects over unencrypted HTTP.",
+      "current_state": "No bucket policy; HTTP requests are allowed",
+      "expected_state": "Bucket policy contains a Deny for Principal * when aws:SecureTransport is false",
+      "status": "FAIL",
+      "remediation": [
+        "Add a bucket policy statement: Effect Deny, Principal \"*\", Action \"s3:*\", Resource bucket ARN and bucket ARN/*, Condition {\"Bool\": {\"aws:SecureTransport\": \"false\"}}."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "2.1.1",
+            "title": "Ensure S3 Bucket Policy is set to deny HTTP requests",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.24",
+            "title": "Use of cryptography",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "4.2.1",
+            "title": "Strong cryptography for transmission",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.7",
+            "title": "Data transmission protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-005",
+      "service": "S3",
+      "resource": "acme-trail-logs",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Bucket policy denies non-TLS (HTTP) requests",
+      "description": "Without an aws:SecureTransport deny, clients can read/write objects over unencrypted HTTP.",
+      "current_state": "No bucket policy; HTTP requests are allowed",
+      "expected_state": "Bucket policy contains a Deny for Principal * when aws:SecureTransport is false",
+      "status": "FAIL",
+      "remediation": [
+        "Add a bucket policy statement: Effect Deny, Principal \"*\", Action \"s3:*\", Resource bucket ARN and bucket ARN/*, Condition {\"Bool\": {\"aws:SecureTransport\": \"false\"}}."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "2.1.1",
+            "title": "Ensure S3 Bucket Policy is set to deny HTTP requests",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.24",
+            "title": "Use of cryptography",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "4.2.1",
+            "title": "Strong cryptography for transmission",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.7",
+            "title": "Data transmission protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-005",
+      "service": "S3",
+      "resource": "secure-bucket",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Bucket policy denies non-TLS (HTTP) requests",
+      "description": "Without an aws:SecureTransport deny, clients can read/write objects over unencrypted HTTP.",
+      "current_state": "HTTP requests denied",
+      "expected_state": "Bucket policy contains a Deny for Principal * when aws:SecureTransport is false",
+      "status": "PASS",
+      "remediation": [
+        "Add a bucket policy statement: Effect Deny, Principal \"*\", Action \"s3:*\", Resource bucket ARN and bucket ARN/*, Condition {\"Bool\": {\"aws:SecureTransport\": \"false\"}}."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "2.1.1",
+            "title": "Ensure S3 Bucket Policy is set to deny HTTP requests",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.24",
+            "title": "Use of cryptography",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "4.2.1",
+            "title": "Strong cryptography for transmission",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.7",
+            "title": "Data transmission protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    },
+    {
+      "check_id": "S3-005",
+      "service": "S3",
+      "resource": "secure-trail-logs",
+      "region": "global",
+      "severity": "MEDIUM",
+      "title": "Bucket policy denies non-TLS (HTTP) requests",
+      "description": "Without an aws:SecureTransport deny, clients can read/write objects over unencrypted HTTP.",
+      "current_state": "No bucket policy; HTTP requests are allowed",
+      "expected_state": "Bucket policy contains a Deny for Principal * when aws:SecureTransport is false",
+      "status": "FAIL",
+      "remediation": [
+        "Add a bucket policy statement: Effect Deny, Principal \"*\", Action \"s3:*\", Resource bucket ARN and bucket ARN/*, Condition {\"Bool\": {\"aws:SecureTransport\": \"false\"}}."
+      ],
+      "mappings": {
+        "CIS": [
+          {
+            "control_id": "2.1.1",
+            "title": "Ensure S3 Bucket Policy is set to deny HTTP requests",
+            "confidence": "exact"
+          }
+        ],
+        "ISO27001": [
+          {
+            "control_id": "A.8.24",
+            "title": "Use of cryptography",
+            "confidence": "approximate"
+          }
+        ],
+        "PCI_DSS": [
+          {
+            "control_id": "4.2.1",
+            "title": "Strong cryptography for transmission",
+            "confidence": "approximate"
+          }
+        ],
+        "SOC2": [
+          {
+            "control_id": "CC6.7",
+            "title": "Data transmission protection",
+            "confidence": "approximate"
+          }
+        ]
+      }
+    }
+  ],
+  "frameworks": {
+    "CIS": "CIS AWS Foundations Benchmark v3.0.0",
+    "ISO27001": "ISO/IEC 27001:2022 Annex A",
+    "PCI_DSS": "PCI DSS v4.0",
+    "SOC2": "SOC 2 (2017 Trust Services Criteria)"
+  }
+}
