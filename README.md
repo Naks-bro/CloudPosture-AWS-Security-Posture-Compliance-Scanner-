@@ -4,7 +4,7 @@ A **read-only** scanner that audits an AWS account against **26 CIS AWS Foundati
 across IAM, S3, EC2/EBS and CloudTrail, scores the result, maps findings to CIS / ISO 27001 / PCI DSS / SOC 2,
 and presents everything in a Streamlit security dashboard with CSV export.
 
-![Dashboard](docs/dashboard.png)
+![Overview](docs/screenshots/01-overview.png)
 
 ## Highlights
 
@@ -14,9 +14,30 @@ and presents everything in a Streamlit security dashboard with CSV export.
 - **Honest scoring** - API failures become `ERROR` and "nothing to check" becomes `N/A`; neither is ever counted as a pass.
 - **Honest mappings** - CIS references are marked `exact`; ISO 27001 / PCI DSS / SOC 2 are explicitly `approximate`
   ([methodology](docs/MAPPINGS.md)).
-- **Modular & tested** - check registry, per-check isolation, ~60 tests running the real boto3 code paths against
+- **Modular & tested** - check registry, per-check isolation, 74 tests running the real boto3 code paths against
   [moto](https://github.com/getmoto/moto) fake accounts. No credentials needed for development.
 - **Demo mode** - bundled sample scan (itself produced by running the real scanner on a simulated account).
+
+## Dashboard
+
+A dark security-console UI organised into six tabs. The header always shows **DEMO DATA vs LIVE AWS**, account, region(s),
+scan time and scan status, plus a permanent *read-only scan* statement.
+
+| Tab | What it answers |
+|-----|-----------------|
+| **Overview** | Posture score + rating, PASS / FAIL / ERROR / N/A counts, failed findings by severity, top priority findings, framework pass rates |
+| **Findings** | Filter by status, severity, service, check, framework or free text; click a row for resource, current vs expected state, why it matters, remediation and every CIS / ISO 27001 / PCI DSS / SOC 2 mapping with its confidence |
+| **Compliance** | Per-framework pass rate, passed/failed, mapped vs unmapped checks, and control-level results. Non-CIS mappings are labelled *Approximate / thematic mapping* |
+| **Services** | IAM, S3, EC2, CloudTrail: checks, pass/fail/errors and failed-by-severity distribution |
+| **Check catalog** | All 26 checks with latest status and control IDs; searchable |
+| **Reports** | Export findings CSV and scan JSON |
+
+| Findings explorer | Compliance |
+|---|---|
+| ![Findings](docs/screenshots/02-findings.png) | ![Compliance](docs/screenshots/03-compliance.png) |
+
+Data sources (sidebar): **Demo Data**, **Live AWS** (profile, regions, services / specific checks, *Run security scan*) or **Upload** a previously exported scan JSON.
+The posture rating is **Poor** (any CRITICAL failure or pass rate < 60%), **Needs attention** (pass rate < 85% or any HIGH failure) or **Healthy**.
 
 ## Quick start
 
@@ -100,7 +121,8 @@ src/cloudposture/
   scoring.py            summaries: pass rate, severity, service, frameworks
   reporting.py          CSV (formula-injection safe) / JSON export
   cli.py                scan | list-checks | demo
-dashboard/              Streamlit UI (app, charts, data helpers, styles)
+dashboard/              Streamlit UI: app.py (shell), sidebar.py, components.py (escaped HTML builders),
+                        charts.py, data.py, theme.py, views/ (one module per tab). No scoring logic lives here.
 tests/                  moto-based integration tests + pure-logic tests
 scripts/                generate_sample_data.py, generate_docs.py
 sample_data/            bundled demo scan (JSON + CSV)

@@ -1,50 +1,42 @@
-"""Plotly figures with a consistent dark palette."""
+"""Plotly figures. Each one answers a specific security question."""
 from __future__ import annotations
 
 import plotly.graph_objects as go
 
 from cloudposture.models import SEVERITY_ORDER
-from cloudposture.scoring import Summary
-from dashboard.styles import COLORS, SEVERITY_COLORS, score_color
+from cloudposture.scoring import ServiceStats
+from dashboard.theme import SEVERITY_COLORS, STATUS_COLORS
 
 _LAYOUT = dict(
-    paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-    font=dict(color="#e5e9f0", size=12), margin=dict(l=10, r=10, t=10, b=10), height=260,
+    paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", font=dict(color="#c9d1e0", size=13),
+    margin=dict(l=0, r=10, t=30, b=10), height=280, barmode="stack",
+    legend=dict(orientation="h", y=1.14, x=0, traceorder="normal", font=dict(size=12)),
+    xaxis=dict(gridcolor="#232c3f", zeroline=False), yaxis=dict(autorange="reversed", gridcolor="rgba(0,0,0,0)"),
 )
 
 
-def score_gauge(rate: float | None) -> go.Figure:
-    value = rate if rate is not None else 0
-    fig = go.Figure(go.Pie(
-        values=[value, 100 - value], hole=0.78, sort=False, direction="clockwise", textinfo="none",
-        marker=dict(colors=[score_color(rate), "#1f2b45"]), hoverinfo="skip",
-    ))
-    fig.add_annotation(text=f"<b>{'n/a' if rate is None else f'{rate:.0f}%'}</b>", showarrow=False,
-                       font=dict(size=34, color=score_color(rate)))
-    fig.update_layout(**_LAYOUT, showlegend=False)
-    return fig
-
-
-def severity_chart(summary: Summary) -> go.Figure:
-    sev = SEVERITY_ORDER
-    fig = go.Figure(go.Bar(
-        x=sev, y=[summary.severity[s].failed for s in sev],
-        marker_color=[SEVERITY_COLORS[s] for s in sev],
-        text=[summary.severity[s].failed for s in sev], textposition="outside", cliponaxis=False,
-        hovertemplate="%{x}: %{y} failed<extra></extra>",
-    ))
-    fig.update_layout(**_LAYOUT, yaxis=dict(title="Failed findings", gridcolor="#1f2b45", zeroline=False),
-                      xaxis=dict(title=None))
-    return fig
-
-
-def service_chart(summary: Summary) -> go.Figure:
-    names = list(summary.service)
+def results_by_service(stats: dict[str, ServiceStats]) -> go.Figure:
+    """Where are the failures? Stacked results per service."""
+    names = list(stats)
     fig = go.Figure()
-    fig.add_bar(name="Passed", y=names, x=[summary.service[n].passed for n in names], orientation="h",
-                marker_color=COLORS["pass"])
-    fig.add_bar(name="Failed", y=names, x=[summary.service[n].failed for n in names], orientation="h",
-                marker_color=COLORS["fail"])
-    fig.update_layout(**_LAYOUT, barmode="stack", legend=dict(orientation="h", y=1.15, x=0, traceorder="normal"),
-                      xaxis=dict(gridcolor="#1f2b45", title="Findings"), yaxis=dict(autorange="reversed"))
+    for label, attr, key in (("Pass", "passed", "PASS"), ("Fail", "failed", "FAIL"),
+                             ("Error", "errors", "ERROR"), ("N/A", "not_applicable", "N/A")):
+        vals = [getattr(stats[n], attr) for n in names]
+        fig.add_bar(name=label, y=names, x=vals, orientation="h", marker_color=STATUS_COLORS[key],
+                    text=[v if v else "" for v in vals], textposition="inside", textfont=dict(color="#0b0f17", size=13),
+                    hovertemplate=f"%{{y}} - {label}: %{{x}}<extra></extra>")
+    fig.update_layout(**_LAYOUT, xaxis_title="Findings")
+    return fig
+
+
+def failures_by_severity(stats: dict[str, ServiceStats]) -> go.Figure:
+    """How bad are the failures? Failed findings per service, split by severity."""
+    names = list(stats)
+    fig = go.Figure()
+    for sev in SEVERITY_ORDER:
+        vals = [stats[n].failed_by_severity[sev] for n in names]
+        fig.add_bar(name=sev.title(), y=names, x=vals, orientation="h", marker_color=SEVERITY_COLORS[sev],
+                    text=[v if v else "" for v in vals], textposition="inside", textfont=dict(color="#0b0f17", size=13),
+                    hovertemplate=f"%{{y}} - {sev.title()}: %{{x}}<extra></extra>")
+    fig.update_layout(**_LAYOUT, xaxis_title="Failed findings")
     return fig
