@@ -134,6 +134,8 @@ Adding a check = one decorated function in `checks/` + one entry in `compliance/
 
 ## Development
 
+See [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) for local setup, connecting AWS, and a starter prompt for Claude Code (project rules: [CLAUDE.md](CLAUDE.md)).
+
 ```bash
 pip install -r requirements-dev.txt && pip install -e .
 python -m pytest -q                         # all tests, offline
