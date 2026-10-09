@@ -14,6 +14,8 @@ python -m pytest -q                                      # 74 tests, offline
 streamlit run dashboard/app.py                           # opens http://localhost:8501 (Demo Data)
 ```
 
+> No AWS account? Everything runs offline - see [OFFLINE_PROMPT.md](OFFLINE_PROMPT.md).
+
 ## 2. Connect your AWS account (read-only)
 
 Do this on your own machine - `aws login` opens a browser.
