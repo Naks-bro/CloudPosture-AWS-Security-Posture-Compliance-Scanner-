@@ -15,7 +15,8 @@ streamlit run dashboard/app.py                           # opens http://localhos
 ```
 
 > No AWS account? Everything runs offline - see [OFFLINE_PROMPT.md](OFFLINE_PROMPT.md).
-> Local + real AWS via the Agent Toolkit (Windows): see [LOCAL_AWS_PROMPT.md](LOCAL_AWS_PROMPT.md).
+> Desktop + real AWS + Agent Toolkit + sandbox lab + hosting options (recommended, Windows): see [DESKTOP_AWS_PROMPT.md](DESKTOP_AWS_PROMPT.md).
+> Older, narrower variant: [LOCAL_AWS_PROMPT.md](LOCAL_AWS_PROMPT.md).
 
 ## 2. Connect your AWS account (read-only)
 
